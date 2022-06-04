@@ -4,7 +4,11 @@ from django.contrib.auth.models import User
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    primary_subject = forms.CharField(required=True)
+    secondary_subject = forms.CharField(required=False)
+    availability = forms.CharField(required=False)
+
 
     class Meta():
         model = User
-        fields = ['email','username','password1','password2']
+        fields = ['username','email','password1','password2','primary_subject','secondary_subject','availability']
