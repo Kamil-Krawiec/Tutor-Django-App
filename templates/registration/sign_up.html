@@ -1,12 +1,32 @@
 {% extends 'main/base.html' %}
 {% load crispy_forms_filters %}
-{% block title %} Register {% endblock %}
 {% load crispy_forms_tags %}
+{% block title %} Register {% endblock %}
+{%  load static %}
+<body style="">
+    {% block content %}
+        <form method="POST" class="row g-3" style="color: white!important;background-image: url('{% static 'images/Background_singup.png' %}')!important;">
+            {% csrf_token %}
 
-
-{%  block content %}
-<form method="POST"> {% csrf_token %} {{ form | crispy }}
-    <button type='submit' class ="btn btn-success"> Register </button>
-</form>
-
-{% endblock %}
+            <div class="col-12">
+                {{ form.email | as_crispy_field }}
+            </div>
+             <div class="col-md-6">
+                {{ form.password1 | as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.password2 | as_crispy_field}}
+            </div>
+            <div class="col-md-6">
+                {{ form.primary_subject | as_crispy_field}}
+            </div>
+            <div class="col-md-4">
+                {{ form.secondary_subject | as_crispy_field }}
+            </div>
+            <div class="col-md-2">
+                {{ form.availability | as_crispy_field }}
+            </div>
+            <button type='submit' class="btn btn-success"> Register</button>
+        </form>
+    {% endblock content %}
+</body>

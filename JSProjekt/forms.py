@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    primary_subject = forms.CharField(required=True)
-    secondary_subject = forms.CharField(required=False)
-    availability = forms.CharField(required=False)
+    primary_subject = forms.CharField(required=True,label='Main subject you teach')
+    secondary_subject = forms.CharField(required=False,label = 'Secound subject you teach')
+    availability = forms.CharField(required=False, label='Working hours per week')
 
 
     class Meta():

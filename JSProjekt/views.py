@@ -5,6 +5,9 @@ from django.contrib.auth import login, logout, authenticate
 def home(request):
     return render(request,'main/home.html')
 
+def aboutPage(request):
+    return render(request,'main/aboutPage.html')
+
 def sign_up(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
