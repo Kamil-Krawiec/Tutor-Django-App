@@ -1,30 +1,17 @@
 from django import forms
+from .models import Mentee, Tutor
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Mentee
 
 
-class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    primary_subject = forms.CharField(required=True, label='Main subject you teach')
-    secondary_subject = forms.CharField(required=False, label='Secound subject you teach')
-    availability = forms.CharField(required=False, label='Working hours per week')
+class SignUpForm(UserCreationForm):
+    primary_subject = forms.CharField(label='Main subject you teach', required=True, max_length=200)
+    secondary_subject = forms.CharField(label='Secound subject you teach', required=False, max_length=200)
+    availability = forms.IntegerField(label='Working hours per week', required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'primary_subject',
-                  'secondary_subject', 'availability']
-
-    def save(self, commit=True):
-        user = super(RegistrationForm, self).save(commit=False)
-        user.primary_subject = self.cleaned_data['primary_subject']
-        user.secondary_subject = self.cleaned_data['secondary_subject']
-        user.availability = self.cleaned_data['availability']
-
-        if commit:
-            user.save()
-
-        return user
+        fields = ['username','first_name', 'last_name', 'email', 'password1', 'password2','primary_subject', 'secondary_subject', 'availability']
 
 
 class MenteeForm(forms.ModelForm):
