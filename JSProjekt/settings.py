@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'JSProjekt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dcsvnqkmdi0b55',
-        'USER': 'cffvegnynlvaio',
-        'PASSWORD': '2505998cd81852c9b2d92f89f93d16f4dee50ac36d64a15de9671666ef40d9f8',
-        'HOST': 'ec2-3-226-163-72.compute-1.amazonaws.com',
+        'NAME': 'datgl00p4bnh5v',
+        'USER': 'acxqghnojtfnhn',
+        'PASSWORD': 'bb8f61bb9ce6867316754e233b3958860b140c7a783e5b22c69c96051d4ac090',
+        'HOST': 'ec2-34-225-159-178.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -141,4 +141,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/login'
-# AUTH_USER_MODEL = "JSProject.CustomUser"

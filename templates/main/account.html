@@ -1,57 +1,9 @@
 {% extends 'main/base.html' %}
 {% block title %} Account details {% endblock %}
 {% load static %}
-<head>
-    <style>
-        body {
-            background: rgb(99, 39, 120)
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #BA68C8
-        }
-
-        .profile-button {
-            background: rgb(99, 39, 120);
-            box-shadow: none;
-            border: none
-        }
-
-        .profile-button:hover {
-            background: #682773
-        }
-
-        .profile-button:focus {
-            background: #682773;
-            box-shadow: none
-        }
-
-        .profile-button:active {
-            background: #682773;
-            box-shadow: none
-        }
-
-        .back:hover {
-            color: #682773;
-            cursor: pointer
-        }
-
-        .labels {
-            font-size: 11px
-        }
-
-        .add-experience:hover {
-            background: #BA68C8;
-            color: #fff;
-            cursor: pointer;
-            border: solid 1px #BA68C8
-        }
-    </style>
-</head>
 
 {% block content %}
-    <section>
+    <section style="background-image: url('{% static 'images/Background_account.png' %}')!important;">
         <div class="row">
             <div class="card mb-4"
                  style="background:transparent!important; !important; color: white!important;">
@@ -63,6 +15,10 @@
                     <p class="text-muted mb-4" style="color: white!important;">surname: {{ user.last_name }}</p>
                 </div>
             </div>
+            <div class="card-header card text-center" style="color: white!important;">
+                <h3>Account details</h3>
+            </div>
+
             <div class="card mb-4"
                  style="background:transparent!important;color: white!important;">
                 <div class="card-body" style="color: white!important;">
@@ -81,7 +37,7 @@
                             <p class="mb-0">Email</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0" style="color: white!important;">{{ user.username }}</p>
+                            <p class="text-muted mb-0" style="color: white!important;">{{ user.email }}</p>
                         </div>
                     </div>
                     <hr>
@@ -101,7 +57,7 @@
                         </div>
                         <div class="col-sm-9">
                             <p class="text-muted mb-0"
-                               style="color: white!important;">{{ tutor.primary_subject }}</p>
+                               style="color: white!important;">{{ tutor.secondary_subject }}</p>
                         </div>
                     </div>
                     <hr>
@@ -117,23 +73,80 @@
                     </div>
                 </div>
             </div>
-            {% for mentee in mentees %}
-                <div class="card"
-                     style="width: 100%;background: transparent!important;color: white!important;">
-                    <div class="card-body">
-                        <h5 class="card-title">Name of student: {{ mentee.name_surname }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted" style="color: white!important;">
-                            Price: {{ mentee.price }}zl</h6>
-                        <p class="card-text">Some informations: {{ mentee.info }}</p>
-                        <p class="card-text" style="">Lesson begins: {{ mentee.starting_date }}</p>
-                        <p class="card-text" style="">Lesson ends:{{ mentee.end_date }}</p>
-                    </div>
-                </div>
-            {% endfor %}
 
+            <div class="card-header card text-center" style="color: white!important;">
+                <h3>Students</h3>
+            </div>
+            {% block mentees %}
+                {% for mentee in mentees %}
+                    {% if user == mentee.tutor %}
+                        <hr class="text-danger border-3 opacity-100">
+
+                        <div class="card" style="width: 100%;background: transparent!important;color: white!important;">
+                            <div class="card-body">
+
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-sm-3">
+                                        <h3 class="card-title">Student:</h3>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0"
+                                           style="color: white!important; font-size: 20px">{{ mentee.name_surname }}</p>
+                                    </div>
+
+                                </div>
+                                <hr>
+
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-sm-3">
+                                        <h6 class="card-title">Price:</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0" style="color: white!important;">{{ mentee.price }} zl
+                                            per
+                                            hour </p>
+                                    </div>
+
+                                </div>
+                                <hr>
+
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-sm-3">
+                                        <h6 class="card-title">Some informations:</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0" style="color: white!important;">{{ mentee.info }}</p>
+                                    </div>
+
+                                </div>
+                                <hr>
+
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-sm-3">
+                                        <h6 class="card-title">Lesson begins:</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0" style="color: white!important;">
+                                            {{ mentee.starting_date }} {{ mentee.starting_time }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-sm-3">
+                                        <h6 class="card-title">Lesson duration:</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0"
+                                           style="color: white!important;">{{ mentee.duration }}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endblock mentees %}
         </div>
-
     </section>
-
-
 {% endblock %}

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -20,8 +22,9 @@ class Mentee(models.Model):
     name_surname = models.CharField('Name and surname of your client',max_length=200)
     info = models.TextField('Usefull informations about client', blank=True)
     price = models.IntegerField(default=0)
-    starting_date = models.DateTimeField('When the lesson begins',help_text="%Y-%m-%d %H:%M")
-    end_date = models.DateTimeField('When the lesson ends',help_text="%Y-%m-%d %H:%M")
+    starting_date = models.DateField('Date, when the lesson begins ', default=datetime.date(1997, 10, 19))
+    starting_time = models.TimeField('Time, when the lesson begins', default=datetime.time(10,20,))
+    duration = models.IntegerField('How long does lesson last', default=1)
 
     def __str__(self):
         return self.name_surname + " -> " + self.info
