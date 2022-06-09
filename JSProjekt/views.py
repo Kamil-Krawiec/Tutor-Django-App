@@ -1,7 +1,7 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
+from django.db.models import Q
 from .forms import MenteeForm, SignUpForm
 from .models import Mentee, Tutor
 
@@ -35,6 +35,30 @@ def defineMentee(request):
 
     return render(request, 'main/defineMentee.html', {"form": form})
 
+def showTutors(request):
+    general=request.GET.get('search_by')
+    specified_main_subject = request.GET.get('main_subject')
+    specified_second_subject = request.GET.get('second_subject')
+    specified_name  =  request.GET.get('tutors_name')
+
+    if specified_main_subject:
+        tutors=Tutor.objects.filter(primary_subject__contains=specified_main_subject)
+    elif specified_second_subject:
+        tutors=Tutor.objects.filter(secondary_subject__contains=specified_second_subject)
+    elif specified_name:
+        tutors=Tutor.objects.filter(Q(user__first_name__contains=specified_name)|
+                                    Q(user__last_name__contains=specified_name))
+    elif general :
+        tutors = Tutor.objects.filter(
+            Q(user__first_name__contains=general) |
+            Q(user__last_name__contains=general) |
+            Q(primary_subject__contains=general) |
+            Q(secondary_subject__contains=general)
+        )
+    else:
+        tutors=None
+
+    return render(request, 'main/tutors.html', {"tutors": tutors})
 
 def sign_up(request):
     if request.method == 'POST':

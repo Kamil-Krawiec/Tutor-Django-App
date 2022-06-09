@@ -25,5 +25,6 @@ urlpatterns = [
     path('sign-up',views.sign_up, name = 'sing_up'),
     path('aboutPage',views.aboutPage, name = 'aboutPage'),
     path('account',views.accountDetails, name = 'aboutPage'),
-    path('addNewMentee', views.defineMentee ,name='defineMentee')
+    path('addNewMentee', views.defineMentee ,name='defineMentee'),
+    path('findTutor', views.showTutors ,name='showTutors')
 ]
