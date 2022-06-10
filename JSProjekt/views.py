@@ -1,8 +1,8 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib import messages
 from django.shortcuts import render, redirect
-
 from .forms import MenteeForm, SignUpForm
 from .models import Mentee, Tutor
 
@@ -20,18 +20,38 @@ def accountDetails(request):
     mentees = Mentee.objects.all()
     tutor_info = Tutor.objects.get(user=request.user)
 
+    if request.method=="POST":
+        mentee_id = request.POST.get("mentee_id")
+        mentee = Mentee.objects.filter(id=mentee_id).first()
+
+        if mentee:
+            messages.success(request, f'Mentee {mentee.name_surname} deleted successful!')
+            user = request.user
+            user.tutor.availability += mentee.duration
+            user.save()
+            mentee.delete()
+
     return render(request, 'main/account.html', {"mentees": mentees, "user": request.user, "tutor": tutor_info})
 
 
 @login_required(login_url="/login")
 def defineMentee(request):
+
     if request.method == 'POST':
         form = MenteeForm(request.POST)
         if form.is_valid():
             mentee = form.save(commit=False)
-            mentee.tutor = request.user
-            mentee.save()
-            return redirect("/account")
+            user = request.user
+            if user.tutor.availability - mentee.duration > 0:
+                mentee.tutor = user
+                mentee.save()
+                user.tutor.availability -= mentee.duration
+                user.save()
+                messages.success(request,'Success! The mentee was added correctly.')
+                return redirect("/account")
+            else:
+                messages.error(request, 'Your weekly availability is too low!')
+                return redirect('/account')
     else:
         form = MenteeForm()
 
