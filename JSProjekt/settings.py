@@ -150,3 +150,10 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '3115'
+EMAIL_HOST_USER =''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False

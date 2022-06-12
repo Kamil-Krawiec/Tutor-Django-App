@@ -16,3 +16,15 @@ class MenteeForm(forms.ModelForm):
     class Meta:
         model = Mentee
         fields = ['name_surname', 'info', 'price', 'starting_date', 'starting_time','duration']
+
+
+# class EmailForm(forms.Form):
+#     receiver = forms.EmailField()
+#     sender = forms.EmailField()
+#     subject = forms.CharField(max_length=200)
+#     message = forms.CharField(widget=forms.Textarea())
+#
+#
+#     class Meta:
+#         fields = ['receiver', 'sender','subject','message']
+

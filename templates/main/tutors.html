@@ -1,5 +1,9 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+
 {% block beforeContent %}
 
     <form>
@@ -85,28 +89,96 @@
 
         {% for tutor in tutors %}
 
-                <div class="col-md-4" style="margin-bottom: 40px">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ tutor.user.username }}</h6>
-                            <p class="card-text">Main subject: {{ tutor.primary_subject }}</p>
+            <div class="col-md-4" style="margin-bottom: 40px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ tutor.user.username }}</h6>
+                        <p class="card-text">Main subject: {{ tutor.primary_subject }}</p>
 
-                            <p class="card-text">Second subject:
-                                {% if tutor.secondary_subject%}
-                                    {{ tutor.secondary_subject }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </p>
-                            <p class="card-text">Availability: {{ tutor.availability }}h per week</p>
+                        <p class="card-text">Second subject:
+                            {% if tutor.secondary_subject %}
+                                {{ tutor.secondary_subject }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                        <p class="card-text">Availability: {{ tutor.availability }}h per week</p>
 
-                            <a href="#" class="btn mr-2"><i class="fas fa-link"></i> Visit profile </a>
-                            <a href="#" class="btn "><i class="fab fa-github"></i> Email me </a>
+
+                        {#                    EMAIL PART-------------------------------------------#}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Email me
+                        </button>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Send Email
+                                            to {{ tutor.user.first_name }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                                <div class="mb-3">
+                                                  <label for="exampleFormControlInput1" class="form-label">Tutors email</label>
+                                                  <input type="email" class="form-control" id="exampleFormControlInput1"
+                                                         value="{{ tutor.user.email }}"
+                                                  name="receiver">
+
+                                                </div>
+                                            <div class="mb-3">
+                                                  <label for="exampleFormControlInput1" class="form-label">Your email address</label>
+                                                  <input type="email" class="form-control" id="exampleFormControlInput1"
+                                                         placeholder="example@whatever.com"
+                                                  name="sender">
+
+                                                </div>
+                                            <div class="mb-3">
+                                                  <label for="exampleFormControlInput1" class="form-label">Title</label>
+                                                  <input type="text" class="form-control" id="exampleFormControlInput1"
+                                                         value="Tutoring"
+                                                  name="title">
+
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                                                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                                  name="message"></textarea>
+                                                </div>
+
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Send</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
+            </div>
+
+
         {% endfor %}
     </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
 
 {% endblock %}

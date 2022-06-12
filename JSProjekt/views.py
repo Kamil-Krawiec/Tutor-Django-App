@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import MenteeForm, SignUpForm
+from django.core.mail import send_mail
 from .models import Mentee, Tutor
 
 
@@ -15,12 +16,13 @@ def aboutPage(request):
     return render(request, 'main/aboutPage.html')
 
 
+
 @login_required(login_url="/login")
 def accountDetails(request):
     mentees = Mentee.objects.all()
     tutor_info = Tutor.objects.get(user=request.user)
 
-    if request.method=="POST":
+    if request.method == "POST":
         mentee_id = request.POST.get("mentee_id")
         mentee = Mentee.objects.filter(id=mentee_id).first()
 
@@ -36,7 +38,6 @@ def accountDetails(request):
 
 @login_required(login_url="/login")
 def defineMentee(request):
-
     if request.method == 'POST':
         form = MenteeForm(request.POST)
         if form.is_valid():
@@ -47,7 +48,7 @@ def defineMentee(request):
                 mentee.save()
                 user.tutor.availability -= mentee.duration
                 user.save()
-                messages.success(request,'Success! The mentee was added correctly.')
+                messages.success(request, 'Success! The mentee was added correctly.')
                 return redirect("/account")
             else:
                 messages.error(request, 'Your weekly availability is too low!')
@@ -80,6 +81,16 @@ def showTutors(request):
         )
     else:
         tutors = None
+
+    if request.method== 'POST':
+        form=request.POST
+        sender = form.get('sender')
+        recipients = [form.get('receiver')]
+        subject = form.get('title')
+        message = form.get('message')
+        send_mail(subject, message, sender, recipients)
+
+
 
     return render(request, 'main/tutors.html', {"tutors": tutors})
 
