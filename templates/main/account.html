@@ -3,11 +3,6 @@
 {% load static %}
 
 {% block content %}
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">
-            {{ message }}
-        </div>
-    {% endfor %}
     <section>
         <div class="row">
             <div class="card mb-4"
@@ -152,7 +147,9 @@
 
                     <form method="POST" class="form" style="margin-top: 10px">
                         {% csrf_token %}
-                        <button type="submit" class = "btn btn-danger" name="mentee_id" value="{{ mentee.id }}"> Delete mentee</button>
+                        <button type="submit" class="btn btn-danger" name="mentee_id" value="{{ mentee.id }}"> Delete
+                            mentee
+                        </button>
                     </form>
                     <hr class="text-danger border-3 opacity-100">
 

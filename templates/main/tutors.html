@@ -5,7 +5,11 @@
 
 
 {% block beforeContent %}
-
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
     <form>
         <div class="container mt-5" style="margin-bottom: 10%;">
 
@@ -126,32 +130,35 @@
 
                                         <form method="POST">
                                             {% csrf_token %}
-                                                <div class="mb-3">
-                                                  <label for="exampleFormControlInput1" class="form-label">Tutors email</label>
-                                                  <input type="email" class="form-control" id="exampleFormControlInput1"
-                                                         value="{{ tutor.user.email }}"
-                                                  name="receiver">
-
-                                                </div>
                                             <div class="mb-3">
-                                                  <label for="exampleFormControlInput1" class="form-label">Your email address</label>
-                                                  <input type="email" class="form-control" id="exampleFormControlInput1"
-                                                         placeholder="example@whatever.com"
-                                                  name="sender">
+                                                <label for="exampleFormControlInput1" class="form-label">Tutors
+                                                    email</label>
+                                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                                       value="{{ tutor.user.email }}"
+                                                       name="receiver">
 
-                                                </div>
+                                            </div>
                                             <div class="mb-3">
-                                                  <label for="exampleFormControlInput1" class="form-label">Title</label>
-                                                  <input type="text" class="form-control" id="exampleFormControlInput1"
-                                                         value="Tutoring"
-                                                  name="title">
+                                                <label for="exampleFormControlInput1" class="form-label">Your email
+                                                    address</label>
+                                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                                       placeholder="example@whatever.com"
+                                                       name="sender">
 
-                                                </div>
-                                                <div class="mb-3">
-                                                  <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                                                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                                  name="message"></textarea>
-                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                                       value="Tutoring"
+                                                       name="title">
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlTextarea1"
+                                                       class="form-label">Message</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                                          name="message"></textarea>
+                                            </div>
 
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">Send</button>

@@ -1,11 +1,17 @@
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db.models import Q
-from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import MenteeForm, SignUpForm
-from django.core.mail import send_mail
 from .models import Mentee, Tutor
+
+
+
+def handle_not_found(request,exception):
+
+    return render(request,'main/errorPage.html')
 
 
 def home(request):
@@ -14,7 +20,6 @@ def home(request):
 
 def aboutPage(request):
     return render(request, 'main/aboutPage.html')
-
 
 
 @login_required(login_url="/login")
@@ -82,15 +87,17 @@ def showTutors(request):
     else:
         tutors = None
 
-    if request.method== 'POST':
-        form=request.POST
+    # EMAIL PART
+    if request.method == 'POST':
+        form = request.POST
         sender = form.get('sender')
         recipients = [form.get('receiver')]
         subject = form.get('title')
         message = form.get('message')
         send_mail(subject, message, sender, recipients)
+        messages.success(request, f'Success! Email sent to {str(recipients[0])} correctly!')
 
-
+        return redirect('/findTutor')
 
     return render(request, 'main/tutors.html', {"tutors": tutors})
 
@@ -112,4 +119,5 @@ def sign_up(request):
             return redirect('/home')
     else:
         form = SignUpForm()
+
     return render(request, 'registration/sign_up.html', {'form': form})

@@ -60,7 +60,6 @@
         }
 
 
-
     </style>
 
 </head>
@@ -81,7 +80,6 @@
                 <li><a href="/findTutor" class="nav-link px-2 text-white">Tutors</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="/account" class="nav-link px-2 text-white">Account details</a></li>
-                    <li><a href="myWork" class="nav-link px-2 text-white">Working calendar</a></li>
                     <li><a href="/addNewMentee" class="nav-link px-2 text-white">Add new mentee</a></li>
                 {% endif %}
 
@@ -108,6 +106,11 @@
 </header>
 
 {% block beforeContent %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
 {% endblock beforeContent %}
 
 {# CONTENT -----------------------#}
