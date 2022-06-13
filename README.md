@@ -1,5 +1,5 @@
 # Tutor-Django-App
-My application for students looking for tutors and tutors wanting to list advertisement.
+My application for students looking for tutors and tutors wanting to list their advertisement.
 
 What features it has:
 
@@ -12,10 +12,12 @@ What features it has:
 3. You can search for your tutor by your preferences.
 
 
-4. You can add your mentees if you already have an account.
+4.  You can add or delete your mentees if you already have an account.
 
 
 5. Catchy headlines.
 
+
+6. Email to tutors.
 
 
